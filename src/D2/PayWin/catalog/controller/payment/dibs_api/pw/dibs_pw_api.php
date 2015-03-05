@@ -122,7 +122,7 @@ class dibs_pw_api extends dibs_pw_helpers {
     private function api_dibs_invoiceOrderObject($mOrderInfo) {
         return (object)array(
             'items' => $this->helper_dibs_obj_items($mOrderInfo),
-            'ship'  => $this->helper_dibs_obj_ship($mOrderInfo),
+            //'ship'  => $this->helper_dibs_obj_ship($mOrderInfo),
             'addr'  => $this->helper_dibs_obj_addr($mOrderInfo)
         );
     }
@@ -138,15 +138,19 @@ class dibs_pw_api extends dibs_pw_helpers {
         $oOrder = $this->api_dibs_commonOrderObject($mOrderInfo);
         $this->api_dibs_prepareDB($oOrder->order->orderid);
         $this->api_dibs_commonFields($aData, $oOrder);
-                
-	if(count($oOrder->etc) > 0) {
-            foreach($oOrder->etc as $sKey => $sVal) $aData['s_' . $sKey] = $sVal;
+        $this->api_dibs_invoiceFields($aData, $mOrderInfo);
+ 	if(count($oOrder->etc) > 0) {
+        foreach($oOrder->etc as $sKey => $sVal) {
+                if(!empty($sVal)){  
+                    $aData['s_' . $sKey] = $sVal;
+                }
         }
         array_walk($aData, create_function('&$val', '$val = trim($val);'));
         $sMAC = $this->api_dibs_calcMAC($aData, $this->helper_dibs_tools_conf('hmac'));
         if(!empty($sMAC)) $aData['MAC'] = $sMAC;
         
         return $aData;
+    }
     }
     
     /**
@@ -183,12 +187,27 @@ class dibs_pw_api extends dibs_pw_helpers {
      * @param mixed $mOrderInfo All order information, needed for DIBS (in shop format).
      */
     private function api_dibs_invoiceFields(&$aData, $mOrderInfo) {
+        $total_data = array();
+        $total = 0;
+        $taxes = $this->cart->getTaxes();
+        $this->load->model('total/shipping');
+        $discount = 0;
+        
+     
+        $orderid = $mOrderInfo['order_id'];
+        $result = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order_total` WHERE `order_id` = {$orderid}");
+      
+        $this->{'model_total_shipping'}->getTotal($total_data, $total, $taxes);
+        $this->{'model_total_tax'}->getTotal($total_data, $total, $taxes);
+        $this->{'model_total_coupon'}->getTotal($total_data,  $discount, $taxes);
+        
+        
         $oOrder = $this->api_dibs_invoiceOrderObject($mOrderInfo);
         foreach($oOrder->addr as $sKey => $sVal) {
             $sVal = trim($sVal);
             if(!empty($sVal)) $aData[$sKey] = self::api_dibs_utf8Fix($sVal);
         }
-        $oOrder->items[] = $oOrder->ship;
+        //$oOrder->items[] = $oOrder->ship;
         if(isset($oOrder->items) && count($oOrder->items) > 0) {
             $aData['oitypes'] = 'QUANTITY;UNITCODE;DESCRIPTION;AMOUNT;ITEMID';
                                 
@@ -205,18 +224,77 @@ class dibs_pw_api extends dibs_pw_helpers {
                 if(!empty($iTmpPrice)) {
                     $sTmpName = !empty($oItem->name) ? $oItem->name : $oItem->sku;
                     if(empty($sTmpName)) $sTmpName = $oItem->id;
-
                     $aData['oiRow' . $i++] = 
                         self::api_dibs_round($oItem->qty, 3) / 1000 . ';' . 
                         'pcs;' . 
                         self::api_dibs_utf8Fix(str_replace(';','\;',$sTmpName)) . ';' .
                         $iTmpPrice . ';' .
-                        self::api_dibs_utf8Fix(str_replace(';','\;',$oItem->id)) . 
-                        (isset($oItem->tax) ? ';' . self::api_dibs_round($oItem->tax) : '');
+                        self::api_dibs_utf8Fix(str_replace(';','\;',$oItem->id)).';0';
                 }
+                
                 unset($iTmpPrice);
             }
 	}
+        
+        // Shipping and taxes total 
+        $shippAmount = 0;
+        $taxAmount   = 0;
+         $coupon      = 0;
+       foreach($total_data as $item ) {
+            if($item['code'] == "shipping"){
+               $shippAmount +=  $item['value'];
+            } 
+            
+            if($item['code'] == "tax") {
+              // $taxAmount +=  $item['value'];
+            }
+         
+            if($item['code'] == "coupon") {
+                $coupon +=  $item['value'];
+            }
+        }
+        
+        
+       foreach($result->rows as $itemArray ){
+           if($itemArray['code'] == "tax") {
+              $taxAmount +=  $itemArray['value']; 
+           }
+           
+       } 
+        
+        if($shippAmount) {
+         $aData['oiRow' . $i++] = 
+                        '1;' . 
+                        'pcs;' . 
+                        'Shipping;' .
+                        self::api_dibs_round($shippAmount) .';'.
+                        'shipping_0;0';
+          $i++;
+        }
+        if($taxAmount) {
+           $aData['oiRow' . $i++] = 
+                        '1;' . 
+                        'pcs;' . 
+                        'Tax;' .
+                        self::api_dibs_round($taxAmount) .';'.
+                        'tax_0;0';
+           $i++; 
+        }
+         
+        
+        if($coupon) {
+           $aData['oiRow' . $i++] = 
+                        '1;' . 
+                        'pcs;' . 
+                        'Coupon;' .
+                        self::api_dibs_round($coupon) .';'.
+                        'tax_0;0';
+           $i++; 
+        }
+        
+        
+        
+        
         if(!empty($aData['orderid'])) $aData['yourRef'] = $aData['orderid'];
         if((string)$this->helper_dibs_tools_conf('capturenow') == 'yes') $aData['capturenow'] = 1;
         $sDistribType = $this->helper_dibs_tools_conf('distr');

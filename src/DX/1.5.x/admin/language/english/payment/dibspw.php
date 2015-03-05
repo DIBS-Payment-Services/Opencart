@@ -25,7 +25,7 @@
     $_['text_es']               = 'Spanish';
     $_['text_sv']               = 'Swedish';
     $_['text_dibspw']           = '<a onclick="window.open(\'http://dibspayment.com/\');">
-                                       <img src="view/image/payment/dibspw.gif" alt="DIBS" title="DIBS" style="border: none;" />
+                                       <img src="http://tech.dibspayment.com/sites/tech/files/pictures/LOGO/DIBS/DIBS_logo_blue.png" alt="DIBS" title="DIBS" style="width:95px; height:48px;border: none;" />
                                    </a>';
     $_['text_techsite']         = 'Detailed description of configuration parameters can be found on our <a href="http://tech.dibs.dk" target="_blank">Tech site</a>.';
     // Entry          
@@ -95,4 +95,9 @@
     // Error
     $_['error_permission']      = 'Warning: You do not have permission to modify payment DIBS!';
     $_['error_warning']         = 'Warning: Please check the form carefully for errors!';
-    $_['error_mid']             = 'Merchant ID Required!';                                        
+    $_['error_mid']             = 'Merchant ID Required!';  
+    $_['entry_logos']            = 'DIBS logo:'
+                                    .
+                                  '<br /><span class="help">' . 
+                                  'How to use dibs logos, please read here: <a target="_blank" href="https://github.com/DIBS-Payment-Services/Opencart">https://github.com/DIBS-Payment-Services/Opencart</a> in Readme section '.
+                                  '</span>';

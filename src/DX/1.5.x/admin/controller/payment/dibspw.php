@@ -65,7 +65,8 @@ class ControllerPaymentDibspw extends Controller {
         $this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
         $this->data['entry_order_status_id'] = $this->language->get('entry_order_status_id');
         $this->data['heading_title'] = $this->language->get('heading_title');
-        
+        $this->data['entry_logos'] = $this->language->get('entry_logos');
+            
  	if (isset($this->error['warning'])) {
             $this->data['error_warning'] = $this->error['warning'];
 	}

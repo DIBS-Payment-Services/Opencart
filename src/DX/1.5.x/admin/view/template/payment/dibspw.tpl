@@ -160,6 +160,13 @@
 		              </select>
                             </td>
 		        </tr>
+	                <tr>
+		            <td><?php echo $entry_logos; ?></td>
+		            <td>
+                                <textarea name = "dibspw_logos" rows="10" cols="50"> <?php echo $dibspw_logos; ?> </textarea>
+                            </td>
+		        </tr>
+        
                         <tr>
 		            <td><?php echo $entry_distr; ?></td>
 		            <td>
