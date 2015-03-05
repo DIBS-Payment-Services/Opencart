@@ -42,4 +42,5 @@ and after this line insert the this code in template:
     <?php } ?>
 
 
+After this changes you on checkout you can see DIBS logo
 
