@@ -50,6 +50,12 @@
                                   '<br /><span class="help">' . 
                                       'Your merchant ID in DIBS system.' .
                                   '</span>';
+    
+    $_['entry_pid']             = 'Partner ID:' .
+                                  '<br /><span class="help">' . 
+                                      'Partner ID.' .
+                                  '</span>';
+	
     $_['entry_paytype']         = 'Paytype:' .
                                   '<br /><span class="help">' . 
                                       'Comma-separated paytypes available for customers (e.g.: VISA,MC).' .

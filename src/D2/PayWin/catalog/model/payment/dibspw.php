@@ -1,7 +1,7 @@
 <?php 
 class ModelPaymentDibspw extends Model {
     public function getMethod($address, $total) {
-        $this->load->language('payment/dibspw');
+        //$this->load->language('payment/dibspw');
 	
 	$query = $this->db->query("SELECT * FROM " . DB_PREFIX . 
                                   "zone_to_geo_zone WHERE geo_zone_id = '" . 

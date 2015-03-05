@@ -60,4 +60,10 @@
     // Error
     $_['error_permission']      = 'Warning: You do not have permission to modify payment DIBS!';
     $_['error_warning']         = 'Warning: Please check the form carefully for errors!';
-    $_['error_mid']             = 'Merchant ID Required!';                                        
+    $_['error_mid']             = 'Merchant ID Required!'; 
+    $_['entry_logo']            = 'DIBS logo:'
+                                    .
+                                  '<br /><span class="help">' . 
+                                  'How to use dibs logos, please read here: <a target="_blank" href="https://github.com/DIBS-Payment-Services/Opencart">https://github.com/DIBS-Payment-Services/Opencart</a> in Readme section '.
+                                  '</span>';
+                                       

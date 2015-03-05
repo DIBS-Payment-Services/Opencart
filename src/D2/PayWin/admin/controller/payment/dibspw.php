@@ -25,7 +25,9 @@ class ControllerPaymentDibspw extends Controller {
         $this->data['dibspw_text_title'] = $this->language->get('dibspw_text_title');
         $this->data['entry_default_title'] = $this->language->get('entry_default_title');
         $this->data['entry_mid'] = $this->language->get('entry_mid');
+        $this->data['entry_pid'] = $this->language->get('entry_pid');
         $this->data['dibspw_mid'] = $this->language->get('dibspw_mid');
+        $this->data['dibspw_pid'] = $this->language->get('dibspw_pid');
         $this->data['entry_hmac'] = $this->language->get('entry_hmac');
         $this->data['dibspw_hmac'] = $this->language->get('dibspw_hmac');
         $this->data['entry_testmode'] = $this->language->get('entry_testmode');
@@ -49,7 +51,6 @@ class ControllerPaymentDibspw extends Controller {
         $this->data['dibspw_account'] = $this->language->get('dibspw_account');
         $this->data['dibspw_distr'] = $this->language->get('dibspw_distr');
         $this->data['text_dempty'] = $this->language->get('text_dempty');
-        $this->data['text_dempty'] = $this->language->get('text_nor');
         $this->data['text_demail'] = $this->language->get('text_demail');
         $this->data['text_dpaper'] = $this->language->get('text_dpaper');
         $this->data['entry_total'] = $this->language->get('entry_total');

@@ -227,10 +227,30 @@ class dibs_pw_helpers extends dibs_pw_helpers_cms implements dibs_pw_helpers_int
      */
     public function helper_dibs_obj_etc($mOrderInfo) {
         return (object)array(
-            'sysmod'      => 'oc_dx_15_4_1_5',
+            'sysmod'      => 'oc_dx_15_4_1_6',
             'callbackfix' => $this->helper_dibs_tools_url("payment/dibspw/callback"),
             'partnerid'   => $this->config->get('dibspw_pid')
         );
     }
+    
+    public function helper_dibs_hook_callback() {
+         $orderId = $_POST['orderid'];
+         $transactionId = $_POST['transaction'];
+         $this->load->model('checkout/order');
+         if($_POST['status'] == 'ACCEPTED') {
+               
+                 $this->model_checkout_order->update($orderId,
+                 $this->helper_dibs_tools_conf('order_status_id'), 
+                 "DIBS Transactionid: {$transactionId}", TRUE);
+         }
+         
+         if( $_POST['status'] == 'DECLINED' ) {
+                $this->model_checkout_order->update($orderId,
+                8, 
+               'Payment was DICLENDE by DIBS', TRUE);
+         }
+        
+    }
+    
 }
 ?>

@@ -195,6 +195,12 @@
                 </select>
             </div>
           </div>
+	     <div class="form-group">
+               <label class="col-sm-2 control-label" for="input-order-status"><?php echo $entry_logo; ?></label>
+            <div class="col-sm-10">
+               <textarea name="dibspw_logo" rows="4" cols="80"></textarea>
+            </div>
+          </div>
         </form>
       </div>
     </div>

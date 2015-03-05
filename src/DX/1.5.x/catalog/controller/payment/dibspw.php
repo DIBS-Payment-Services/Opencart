@@ -8,8 +8,7 @@ class ControllerPaymentDibspw extends dibs_pw_api {
         $this->load->model('checkout/order');
         $this->data['action'] = self::api_dibs_get_formAction();
         $mOrderInfo = $this->model_checkout_order->getOrder((int)$this->session->data['order_id']);
-        $this->model_checkout_order->confirm($mOrderInfo['order_id'], 
-                                             $this->helper_dibs_tools_conf('config_order_status_id', ''));
+   
 
         /** DIBS integration */
         $aData = $this->api_dibs_get_requestFields($mOrderInfo);
@@ -40,9 +39,10 @@ class ControllerPaymentDibspw extends dibs_pw_api {
                 exit();
             }
             else {
-                $this->model_checkout_order->update($aOrderInfo['order_id'], 
-                                                    $this->helper_dibs_tools_conf('order_status_id'), 
-                                                    '', TRUE);
+                $transactionId = $_POST['transaction'];
+                $this->model_checkout_order->confirm($_POST['orderid'], 
+                $this->helper_dibs_tools_conf('config_order_status_id', ''), 
+                "DIBS Transactionid: {$transactionId}", true);                  
                 $this->redirect($this->helper_dibs_tools_url('checkout/success'));
             }
         }

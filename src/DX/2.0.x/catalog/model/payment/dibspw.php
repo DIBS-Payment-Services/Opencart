@@ -36,6 +36,7 @@ class ModelPaymentDibspw extends Model {
                 'code'       => 'dibspw',
                 'title'      => $sTitle,
                 'terms'       => '',
+                'logo'       => htmlspecialchars_decode( $this->config->get('dibspw_logo') ),
                 'sort_order' => $this->config->get('dibspw_sort_order')
             );
         }
