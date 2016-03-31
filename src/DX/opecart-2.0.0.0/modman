@@ -1,0 +1,10 @@
+admin/controller/payment/dibspw.php  admin/controller/payment/dibspw.php 
+admin/language/english/payment/dibspw.php  admin/language/english/payment/dibspw.php
+admin/view/template/payment/dibspw.tpl  admin/view/template/payment/dibspw.tpl
+admin/view/image/payment/dibspw.png  admin/view/image/payment/dibspw.png
+
+catalog/controller/payment/dibspw.php  catalog/controller/payment/dibspw.php
+catalog/controller/payment/dibs_api  catalog/controller/payment/dibs_api
+catalog/language/english/payment/dibspw.php  catalog/language/english/payment/dibspw.php
+catalog/model/payment/dibspw.php  catalog/model/payment/dibspw.php
+catalog/view/theme/default/template/payment/dibspw.tpl  catalog/view/theme/default/template/payment/dibspw.tpl

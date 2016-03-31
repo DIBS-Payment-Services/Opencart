@@ -119,10 +119,13 @@ class dibs_pw_helpers extends dibs_pw_helpers_cms implements dibs_pw_helpers_int
                        
         $order_info = $this->model_checkout_order->getOrder((int)$this->session->data['order_id']);
         $aItems = array();
-        //foreach($aItemsOC as $mItem) {
+        
+          //foreach($aItemsOC as $mItem) {
+          $this->load->model('catalog/product');
           foreach($this->cart->getProducts() as $product) {  
+            $product_info = $this->model_catalog_product->getProduct($product['product_id']);
             $aItems[] = (object)array(
-                'id'    => $product['product_id'],
+                'id'    => ($product_info['model']) ? $product_info['model'] : $product['product_id'],
                 'name'  => $product['name'],
                 'sku'   => $product['model'],
                 'price' =>  $this->currency->format($product['price'], $order_info['currency_code'], $order_info['currency_value'], false),   ///$product['price'],        //$this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')))
