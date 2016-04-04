@@ -265,7 +265,7 @@ class dibs_pw_helpers extends dibs_pw_helpers_cms implements dibs_pw_helpers_int
      */
     public function helper_dibs_obj_etc($mOrderInfo) {
         return (object)array(
-            'sysmod'      => 'oc_dx_20_4_1_6',
+            'sysmod'      => 'oc_dx_20_4_1_7',
             'callbackfix' => $this->helper_dibs_tools_url("payment/dibspw/callback"),
             'partnerid'   => $this->config->get('dibspw_pid')
         );

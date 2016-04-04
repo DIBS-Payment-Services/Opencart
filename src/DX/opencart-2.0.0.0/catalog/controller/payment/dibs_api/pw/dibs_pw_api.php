@@ -226,11 +226,15 @@ class dibs_pw_api extends dibs_pw_helpers {
                 $iTmpPrice = self::api_dibs_round($oItem->price);
                 if(!empty($iTmpPrice)) {
                     $sTmpName = !empty($oItem->name) ? $oItem->name : $oItem->sku;
+                    
+                    $sTmpName = str_replace(';','\;',html_entity_decode($sTmpName));
+                    $sTmpName = htmlentities($sTmpName);
+                    
                     if(empty($sTmpName)) $sTmpName = $oItem->id;
                     $aData['oiRow' . $i++] = 
                         self::api_dibs_round($oItem->qty, 3) / 1000 . ';' . 
                         'pcs;' . 
-                        self::api_dibs_utf8Fix(str_replace(';','\;',$sTmpName)) . ';' .
+                        self::api_dibs_utf8Fix($sTmpName) . ';' .
                         $iTmpPrice . ';' .
                         self::api_dibs_utf8Fix(str_replace(';','\;',$oItem->id)).';0';
                 }
@@ -474,7 +478,8 @@ class dibs_pw_api extends dibs_pw_helpers {
             if(isset($aData['MAC'])) unset($aData['MAC']);
             ksort($aData);
             foreach($aData as $sKey => $sVal) {
-                $sData .= '&' . $sKey . '=' . (($bUrlDecode === TRUE) ? urldecode($sVal) : $sVal);
+                $sData .= '&' . $sKey . '=' . (($bUrlDecode === TRUE) ? urldecode($sVal) : html_entity_decode($sVal));
+                
             }
             $sMAC = hash_hmac('sha256', ltrim($sData, '&'), self::api_dibs_hextostr($sHMAC));
         }
