@@ -1,7 +1,7 @@
 Opencart
 =======
 
-In versions for DX ( opencart_1.5.x_dibspw_dx_4.1.7, opencart_2.0_4.1.5_dx_dibspw ) was added DIBS logos
+In versions for DX ( opencart_1.5.x_dibspw_dx_4.1.7, opencart_2.0_4.1.5_dx_dibspw ) was added Nets logos
 
 http://tech.dibspayment.com/logos#check-out-logos
 
@@ -25,7 +25,7 @@ And insert after this line the following php code:
 
 For Opencart 2.0.x
 ==================
-  - Find **DIBS logo:** textarea
+  - Find **Nets logo:** textarea
   - Paste logo HTML marckup in textarea
   - Save changes
 
@@ -42,5 +42,5 @@ and after this line insert the this code in template:
     <?php } ?>
 
 
-After this changes you on checkout you can see DIBS logo
+After this changes you on checkout you can see Nets logo
 
